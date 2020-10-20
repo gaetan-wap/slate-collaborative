@@ -12,7 +12,7 @@ import { getClients } from './utils'
 import AutomergeBackend from './AutomergeBackend'
 
 export interface SocketIOCollaborationOptions {
-  entry: number | Server
+  entry: number //| Server
   connectOpts?: SocketIO.ServerOptions
   defaultValue?: Node[]
   saveFrequency?: number
@@ -72,7 +72,9 @@ export default class SocketIOCollaboration {
 
       if (!doc) return next(null, false)
 
-      this.backend.appendDocument(path, doc)
+      if (!this.backend.getDocument(path)) {
+        this.backend.appendDocument(path, doc)
+      }
     }
 
     return next(null, true)
